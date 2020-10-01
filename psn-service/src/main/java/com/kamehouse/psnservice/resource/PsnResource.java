@@ -6,6 +6,8 @@ import com.kamehouse.psnservice.model.GameInfo;
 import com.kamehouse.psnservice.model.PsnCache;
 import com.kamehouse.psnservice.model.UserData;
 import com.kamehouse.psnservice.service.PsnService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +23,10 @@ import java.util.List;
 @RestController
 public class PsnResource {
 
+    private static final Logger logger = LogManager.getLogger(PsnResource.class);
+
     @Autowired
-    private PsnService gamesCatalogService;
+    private PsnService psnService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -35,16 +39,16 @@ public class PsnResource {
 
     @RequestMapping("/listar")
     public List<PsnCache> listarCache(){
-        return gamesCatalogService.listar();
+        return psnService.listar();
     }
 
     private GameInfo getGameInfo(String nomeJogo){
-        System.out.println("Pegando informacoes do jogo: "+nomeJogo);
+        logger.debug("Pegando informacoes do jogo: ", nomeJogo);
         return restTemplate.getForObject("http://"+gameInfoMicroService+"/gamesInfo/"+nomeJogo, GameInfo.class);
     }
 
     private UserData getUserData(String nomeUsuario){
-        System.out.println("Pegando informacoes do usuario: "+nomeUsuario);
+        logger.debug("Pegando informacoes do usuario: ", nomeUsuario);
         return restTemplate.getForObject("http://"+userDataMicroService+"/userService/"+nomeUsuario, UserData.class);
     }
 

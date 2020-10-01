@@ -1,5 +1,8 @@
 package com.kamehouse.psnservice;
 
+import com.kamehouse.psnservice.resource.PsnResource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -10,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 @EnableEurekaClient
 @SpringBootApplication
 public class PsnServiceApplication {
+
+	private static final Logger logger = LogManager.getLogger(PsnServiceApplication.class);
 
 	@LoadBalanced
 	@Bean
