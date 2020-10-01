@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Wed Sep 30 19:03:34 BRT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0174-e10a-c56b-00000821b110 
+on database directory memory:/media/lucianoft/DATA/Linux/Desenv/Java/Microservicos/PSN/games-info-service/ce210c8a-4f55-4d01-944e-5fb2b6008840 with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@4b85612c 
+Loaded from file:/home/lucianoft/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=11.0.8+10-LTS
+user.dir=/media/lucianoft/DATA/Linux/Desenv/Java/Microservicos/PSN/games-info-service
+os.name=Linux
+os.arch=amd64
+os.version=4.19.0-10-amd64
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
