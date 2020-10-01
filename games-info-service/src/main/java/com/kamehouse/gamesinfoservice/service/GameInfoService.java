@@ -41,11 +41,11 @@ public class GameInfoService {
     }
 
     public GameInfo recuperaJogoPorNome(String nomeJogo){
-        try {
+       /* try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         return this.listar().stream().filter(j -> j.getNome().equals(nomeJogo)).findFirst().get();
 
 
