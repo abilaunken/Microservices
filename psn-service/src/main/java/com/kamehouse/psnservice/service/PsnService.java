@@ -12,15 +12,6 @@ import java.util.List;
 @Service
 public class PsnService {
 
-    @PostConstruct
-    public void constructDataBase(){
-        PsnCache g = new PsnCache();
-        g.setNome("teste");
-        g.setDescricao("teste");
-        this.salvarCache(g);
-    }
-
-
     @Autowired
     PsnRepository psnRepository;
 
@@ -30,8 +21,14 @@ public class PsnService {
         return value;
     }
 
-    private void salvarCache(PsnCache psnCache) {
+    public void salvarCache(PsnCache psnCache) {
         psnRepository.save(psnCache);
+    }
+
+    public List<PsnCache> recuperaCacheList(){
+        List<PsnCache> value = new ArrayList<>();
+        psnRepository.findAll().forEach(c -> value.add(c));
+        return value;
     }
 
 

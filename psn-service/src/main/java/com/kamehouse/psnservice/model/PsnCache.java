@@ -4,46 +4,63 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.function.Consumer;
 
 @Entity
-public class PsnCache {
+public class PsnCache implements Cache{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String nome;
-    private String descricao;
+    private String jsonUsuario;
+    private String jsonGames;
 
-    public PsnCache(){}
+    public PsnCache() {
+    }
 
-    public PsnCache(Integer id, String nome, String descricao) {
+    public PsnCache(Integer id, String jsonUsuario, String jsonGames) {
         this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
+        this.jsonUsuario = jsonUsuario;
+        this.jsonGames = jsonGames;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public String getJsonUsuario() {
+        return jsonUsuario;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setJsonUsuario(String jsonUsuario) {
+        this.jsonUsuario = jsonUsuario;
+    }
+
+    public String getJsonGames() {
+        return jsonGames;
+    }
+
+    public void setJsonGames(String jsonGames) {
+        this.jsonGames = jsonGames;
+    }
+
+
+    @Override
+    public void salvarCache(Object o, Consumer c) {
+        c.accept(o);
+    }
+
+    @Override
+    public String toString() {
+        return "PsnCache{" +
+                "id=" + id +
+                ", jsonUsuario='" + jsonUsuario + '\'' +
+                ", jsonGames='" + jsonGames + '\'' +
+                '}';
     }
 }
 

@@ -5,7 +5,9 @@ package com.kamehouse.psnservice.resource;
 import com.kamehouse.psnservice.model.GameInfo;
 import com.kamehouse.psnservice.model.PsnCache;
 import com.kamehouse.psnservice.model.UserData;
+import com.kamehouse.psnservice.service.GameInfoService;
 import com.kamehouse.psnservice.service.PsnService;
+import com.kamehouse.psnservice.service.UserDataService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,29 +30,16 @@ public class PsnResource {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${microservice.gameInfo.name}")
-    private String gameInfoMicroService;
+    @Autowired
+    private UserDataService userDataService;
 
-    @Value("${microservice.userData.name}")
-    private String userDataMicroService;
+    @Autowired
+    private GameInfoService gameInfoService;
+
 
     @RequestMapping("/listar")
     public List<PsnCache> listarCache(){
         return psnService.listar();
-    }
-
-    private GameInfo getGameInfo(String nomeJogo){
-        logger.debug("Pegando informacoes do jogo: ", nomeJogo);
-        return restTemplate.getForObject("http://"+gameInfoMicroService+"/gamesInfo/"+nomeJogo, GameInfo.class);
-    }
-
-    private UserData getUserData(String nomeUsuario){
-        logger.debug("Pegando informacoes do usuario: ", nomeUsuario);
-        return restTemplate.getForObject("http://"+userDataMicroService+"/userService/"+nomeUsuario, UserData.class);
-    }
-
-    private void atualizaBaseUsuario(UserData userData){
-            restTemplate.put("http://"+userDataMicroService+"/userService/atualizarUsuario/", userData);
     }
 
     //TODO:Esse método teve que ser criado pois nao tenho interface ainda
@@ -58,8 +47,8 @@ public class PsnResource {
     public UserData queroComprarJogo(@PathVariable("nomeJogo") String nomeJogo,
                               @PathVariable("nomeUsuario") String nomeUsuario){
 
-       final GameInfo gameInfo = getGameInfo(nomeJogo);
-       final UserData userData = getUserData(nomeUsuario);
+       final GameInfo gameInfo = gameInfoService.getGameInfo(nomeJogo);
+       UserData userData = userDataService.getUserData(nomeUsuario);
        userData.setListaGameInfo(new ArrayList<>(Arrays.asList(gameInfo)));
        return userData;
     }
@@ -67,9 +56,9 @@ public class PsnResource {
     @RequestMapping(method= RequestMethod.PUT, value="/comprar")
     public String comprarJogo(@RequestBody UserData userData){
         //TODO: Trocar 1 este ponto para usar rabbitmq, depois tornar tudo eventlog
-        logger.debug("Atualizando informacoes de compra do usuario: ", userData.getNome());
-        atualizaBaseUsuario(userData);
-        return "Jogo Comprado por: "+userData.getNome();
+        logger.debug("Atualizando informacoes de compra do usuario: {}", userData.getNome());
+        return userDataService.atualizaBaseUsuario(userData);
+
     }
 
 

@@ -43,7 +43,9 @@ public class UserDataService {
     }
 
     public String atualizaUsuario(UserData userData){
-        userDataRepository.save(userData);
+        UserData usuario = userDataRepository.findByNome(userData.getNome());
+        userData.getListaGameInfo().stream().forEach((g)-> usuario.getListaGameInfo().add(g));
+        userDataRepository.save(usuario);
         return "A Conta do Usuario: "+userData.getNome()+", foi atualizada.";
     }
 
