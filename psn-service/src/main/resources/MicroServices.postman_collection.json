@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "d7a7f001-da02-4dd0-b250-c1eba230520b",
+		"name": "MicroServices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "UserInfo - Listar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserInfo-BuscarUsuarioPorNome",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8089/userService/Gabriela",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8089",
+					"path": [
+						"userService",
+						"Gabriela"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GameInfo-Listar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/gamesInfo/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"gamesInfo",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GamesInfo-BuscarJogoPorNome",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/gamesInfo/Overwatch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"gamesInfo",
+						"Overwatch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PSN-QueroComprar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/psn/queroComprarJogo/Overwatch/usuario/Gabriela",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"psn",
+						"queroComprarJogo",
+						"Overwatch",
+						"usuario",
+						"Gabriela"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PSN-ComprarJogo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"nome\": \"Gabriela\",\n    \"listaGameInfo\": [\n        {\n            \"id\": 3,\n            \"nome\": \"Overwatch\",\n            \"descricao\": \"Jogo multiplayer\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/psn/comprar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"psn",
+						"comprar"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

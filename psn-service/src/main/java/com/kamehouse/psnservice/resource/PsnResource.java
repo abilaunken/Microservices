@@ -10,10 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -56,19 +53,23 @@ public class PsnResource {
             restTemplate.put("http://"+userDataMicroService+"/userService/atualizarUsuario/", userData);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value="/comprar/{nomeJogo}/usuario/{nomeUsuario}")
-    public String comprarJogo(@PathVariable("nomeJogo") String nomeJogo,
+    //TODO:Esse método teve que ser criado pois nao tenho interface ainda
+    @RequestMapping(method = RequestMethod.GET, value="/queroComprarJogo/{nomeJogo}/usuario/{nomeUsuario}")
+    public UserData queroComprarJogo(@PathVariable("nomeJogo") String nomeJogo,
                               @PathVariable("nomeUsuario") String nomeUsuario){
 
        final GameInfo gameInfo = getGameInfo(nomeJogo);
        final UserData userData = getUserData(nomeUsuario);
        userData.setListaGameInfo(new ArrayList<>(Arrays.asList(gameInfo)));
+       return userData;
+    }
 
+    @RequestMapping(method= RequestMethod.PUT, value="/comprar")
+    public String comprarJogo(@RequestBody UserData userData){
         //TODO: Trocar 1 este ponto para usar rabbitmq, depois tornar tudo eventlog
-        System.out.println("Atualizando informacoes de compra do usuario: "+nomeUsuario);
+        logger.debug("Atualizando informacoes de compra do usuario: ", userData.getNome());
         atualizaBaseUsuario(userData);
-
-        return "O Usuário: "+nomeUsuario+" adquiriu o jogo: "+nomeJogo;
+        return "Jogo Comprado por: "+userData.getNome();
     }
 
 
