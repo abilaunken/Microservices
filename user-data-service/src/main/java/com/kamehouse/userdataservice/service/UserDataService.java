@@ -5,6 +5,7 @@ import com.kamehouse.userdataservice.model.UserData;
 import com.kamehouse.userdataservice.repository.GameInfoRepository;
 import com.kamehouse.userdataservice.repository.UserDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -24,7 +25,7 @@ public class UserDataService {
     @PostConstruct
     public void init() {
         UserData user1 = new UserData(1, "Gabriela");
-        userDataRepository.save(user1);
+        atualizaUsuario(user1);
 
         GameInfo gow =  new GameInfo(1);
         this.gameInfoRepository.save(gow);
@@ -42,11 +43,23 @@ public class UserDataService {
         return value;
     }
 
-    public String atualizaUsuario(UserData userData){
+    public HttpStatus compraJogo(UserData userData){
         UserData usuario = userDataRepository.findByNome(userData.getNome());
-        userData.getListaGameInfo().stream().forEach((g)-> usuario.getListaGameInfo().add(g));
+        if(usuario.equals(userData)){
+            return HttpStatus.CONFLICT;
+        }
+        userData.getListaGameInfo().stream().forEach((g)-> {
+            if(usuario.getListaGameInfo().stream()
+                    .noneMatch((u)-> u.getId() == g.getId())){
+                usuario.getListaGameInfo().add(g);
+            }
+        });
+        atualizaUsuario(usuario);
+        return HttpStatus.OK;
+    }
+
+    private void atualizaUsuario(UserData usuario) {
         userDataRepository.save(usuario);
-        return "A Conta do Usuario: "+userData.getNome()+", foi atualizada.";
     }
 
     public UserData getUsuario(String nomeUsuario) {

@@ -5,6 +5,7 @@ import com.kamehouse.userdataservice.model.UserData;
 import com.kamehouse.userdataservice.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,9 +32,9 @@ public class UserDataResource {
         return userDataService.getUsuario(nomeUsuario);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value="/atualizarUsuario")
-    public String atualizarUsuario(@RequestBody UserData userData){
-        return userDataService.atualizaUsuario(userData);
+    @RequestMapping(method = RequestMethod.POST, value="/atualizarUsuario")
+    public HttpStatus atualizarUsuario(@RequestBody UserData userData){
+        return userDataService.compraJogo(userData);
     }
 
 }

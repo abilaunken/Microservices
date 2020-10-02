@@ -37,13 +37,13 @@ public class PsnResource {
     private GameInfoService gameInfoService;
 
 
-    @RequestMapping("/listar")
+    @RequestMapping("/psn/listar")
     public List<PsnCache> listarCache(){
         return psnService.listar();
     }
 
     //TODO:Esse método teve que ser criado pois nao tenho interface ainda
-    @RequestMapping(method = RequestMethod.GET, value="/queroComprarJogo/{nomeJogo}/usuario/{nomeUsuario}")
+    @RequestMapping(method = RequestMethod.GET, value="/psn/queroComprarJogo/{nomeJogo}/usuario/{nomeUsuario}")
     public UserData queroComprarJogo(@PathVariable("nomeJogo") String nomeJogo,
                               @PathVariable("nomeUsuario") String nomeUsuario){
 
@@ -53,7 +53,7 @@ public class PsnResource {
        return userData;
     }
 
-    @RequestMapping(method= RequestMethod.PUT, value="/comprar")
+    @RequestMapping(method= RequestMethod.PUT, value="/psn/comprar")
     public String comprarJogo(@RequestBody UserData userData){
         //TODO: Trocar 1 este ponto para usar rabbitmq, depois tornar tudo eventlog
         logger.debug("Atualizando informacoes de compra do usuario: {}", userData.getNome());

@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -65,8 +66,17 @@ public class UserDataService {
                     @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds", value="5000"),
             })
     public String atualizaBaseUsuario(UserData userData){
-        restTemplate.put("http://"+userDataMicroService+"/userService/atualizarUsuario/", userData);
-        return "Jogo Comprado por: "+userData.getNome();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<UserData> requestEntity = new HttpEntity<>(userData, headers);
+
+        ResponseEntity<HttpStatus> responseEntity = restTemplate.postForEntity("http://"+userDataMicroService+"/userService/atualizarUsuario/",requestEntity ,HttpStatus.class);
+
+        if(responseEntity.getBody() != HttpStatus.OK){
+            return "O Usuário(a): "+userData.getNome()+" já possúi este jogo.";
+        }
+
+       return "Jogo adquirido pelo Usuário: "+userData.getNome();
     }
 
 

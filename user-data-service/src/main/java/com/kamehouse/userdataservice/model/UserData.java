@@ -3,7 +3,9 @@ package com.kamehouse.userdataservice.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class UserData {
@@ -55,5 +57,20 @@ public class UserData {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserData userData = (UserData) o;
+        return Objects.equals(id, userData.id) &&
+                Objects.equals(nome, userData.nome) &&
+                userData.getListaGameInfo().equals(this.getListaGameInfo());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, listaGameInfo);
     }
 }
